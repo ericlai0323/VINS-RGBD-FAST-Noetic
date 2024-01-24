@@ -399,7 +399,7 @@ private:
                         ptr = cv_bridge::cvtColor(ptr, sensor_msgs::image_encodings::BGR8);
                         cv::Mat stereo_img = ptr->image;
                         cv::Mat tmp_img    = stereo_img.rowRange(0, ROW);
-                        cv::cvtColor(show_img, tmp_img, cv::COLOR_BGR2GRAY);
+                        cv::cvtColor(show_img, tmp_img, CV_GRAY2RGB);
 
                         for (unsigned int j = 0; j < estimator.featureTracker.cur_pts.size(); j++)
                         {

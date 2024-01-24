@@ -16,7 +16,7 @@ output_path: "/home/ericlai/output/"
 #RGBD camera Ideal Range
 depth_min_dist: 0.5
 depth_max_dist: 10
-fix_depth: 1    # 1: feature in ideal range will be set as constant 
+fix_depth: 0    # 1: feature in ideal range will be set as constant 
 
 frontend_freq: 30 # It should be raised in VO mode(without IMU).
 num_grid_rows: 5
@@ -25,8 +25,8 @@ num_grid_cols: 6
 #camera calibration
 model_type: PINHOLE
 camera_name: camera
-image_width: 960
-image_height: 540
+image_width: 640
+image_height: 360
 
 distortion_parameters:
    k1: 0.0
@@ -40,7 +40,7 @@ projection_parameters:
    cy: 193.91859436035156
 
 # Extrinsic parameter between IMU and Camera.
-estimate_extrinsic: 0   # 0  Have an accurate extrinsic parameters. We will trust the following imu^R_cam, imu^T_cam, don't change it.
+estimate_extrinsic: 1   # 0  Have an accurate extrinsic parameters. We will trust the following imu^R_cam, imu^T_cam, don't change it.
                         # 1  Have an initial guess about extrinsic parameters. We will optimize around your initial guess.
                         # 2  Don't know anything about extrinsic parameters. You don't need to give R,T. We will try to calibrate it. Do some rotation movement at beginning.
 #If you choose 0 or 1, you should write down the following matrix.
@@ -60,9 +60,9 @@ extrinsicTranslation: !!opencv-matrix
 
 
 #feature traker paprameters
-max_cnt: 30           # max feature number in feature tracking. It is suggested to be raised in VO mode.
-min_dist: 30           # min distance between two features
-freq: 10                # frequence (Hz) of publish tracking result. At least 10Hz for good estimation. If set 0, the frequence will be same as raw image
+max_cnt: 200           # max feature number in feature tracking. It is suggested to be raised in VO mode.
+min_dist: 15           # min distance between two features
+freq: 0                # frequence (Hz) of publish tracking result. At least 10Hz for good estimation. If set 0, the frequence will be same as raw image
 F_threshold: 1.0        # ransac threshold (pixel)
 show_track: 1           # publish tracking image as topic
 equalize: 0             # if image is too dark or light, trun on equalize to find enough features
@@ -87,7 +87,7 @@ td: 0.0                           # initial value of time offset. unit: s. reade
 
 #rolling shutter parameters
 rolling_shutter: 1                      # 0: global shutter camera, 1: rolling shutter camera
-rolling_shutter_tr: 0.033               # unit: s. rolling shutter read out time per frame (from data sheet).
+rolling_shutter_tr: 0.05               # unit: s. rolling shutter read out time per frame (from data sheet).
 
 #loop closure parameters
 loop_closure: 0                    # start loop closure
