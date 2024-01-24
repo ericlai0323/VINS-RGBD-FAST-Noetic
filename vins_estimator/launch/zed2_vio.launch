@@ -1,7 +1,9 @@
 <launch>
     <arg name="config_path" default="$(find vins_estimator)/../config/stereolabs/zed2_config.yaml" />
     <arg name="vins_path" default="$(find vins_estimator)/../config/../" />
-
+    
+    <node name="rvizvisualisation" pkg="rviz" type="rviz" output="log" args="-d $(find vins_estimator)/../config/video.rviz" />
+    
     <arg name="manager_name" default="nodelet_manager_pc" />
     <node pkg="nodelet" type="nodelet" name="$(arg manager_name)" args="manager" output="screen" />
 
