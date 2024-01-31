@@ -14,9 +14,9 @@ depth_topic: "/zed/zed_node/depth/depth_registered"
 output_path: "/home/ericlai/output/"
 
 #RGBD camera Ideal Range
-depth_min_dist: 0.5
-depth_max_dist: 10
-fix_depth: 0    # 1: feature in ideal range will be set as constant 
+depth_min_dist: 1
+depth_max_dist: 5
+fix_depth: 1    # 1: feature in ideal range will be set as constant 
 
 frontend_freq: 30 # It should be raised in VO mode(without IMU).
 num_grid_rows: 5
@@ -34,13 +34,13 @@ distortion_parameters:
    p1: 0.0
    p2: 0.0
 projection_parameters:
-   fx: 277.4093933105469
-   fy: 277.4093933105469
-   cx: 326.0341796875
-   cy: 193.91859436035156
+   fx: 277.9840393066406
+   fy: 277.9840393066406
+   cx: 326.0340576171875
+   cy: 193.9207305908203
 
 # Extrinsic parameter between IMU and Camera.
-estimate_extrinsic: 1   # 0  Have an accurate extrinsic parameters. We will trust the following imu^R_cam, imu^T_cam, don't change it.
+estimate_extrinsic: 0   # 0  Have an accurate extrinsic parameters. We will trust the following imu^R_cam, imu^T_cam, don't change it.
                         # 1  Have an initial guess about extrinsic parameters. We will optimize around your initial guess.
                         # 2  Don't know anything about extrinsic parameters. You don't need to give R,T. We will try to calibrate it. Do some rotation movement at beginning.
 #If you choose 0 or 1, you should write down the following matrix.
@@ -49,14 +49,20 @@ extrinsicRotation: !!opencv-matrix
    rows: 3
    cols: 3
    dt: d
-   data: [0.999925, 0.012026, 0.002498, 
-         -0.012033, 0.999924, 0.002800, 
-         -0.002464, -0.002829, 0.999993]   
+   data: [0.999925, -0.012033, -0.002464,
+         0.012026, 0.999924, -0.002829,
+         0.002498, 0.002800, 0.999993] # Maybe Correct
+
+   # data: [0.999925, 0.012026, 0.002498, 
+   #       -0.012033, 0.999924, 0.002800, 
+   #       -0.002464, -0.002829, 0.999993] # Maybe Incorrecct
+
 extrinsicTranslation: !!opencv-matrix
    rows: 3
    cols: 1
    dt: d
-   data: [-0.002000, -0.023000, 0.000220]
+   data: [0.002464, 0.002829, -0.000220] # Maybe Correct
+   # data: [-0.002000, -0.023000, 0.000220] # Maybe Incorrecct
 
 
 #feature traker paprameters
@@ -74,24 +80,24 @@ max_num_iterations: 8   # max solver itrations, to guarantee real time
 keyframe_parallax: 10.0 # keyframe selection threshold (pixel); if system fails frequently, please try to reduce the "keyframe_parallax"  
 
 #imu parameters       The more accurate parameters you provide, the better performance
-acc_n: 1.4e-03          # accelerometer measurement noise standard deviation. #0.2
-gyr_n: 8.6e-05        # gyroscope measurement noise standard deviation.     #0.05
-acc_w: 8.0e-05        # accelerometer bias random work noise standard deviation.  #0.02
-gyr_w: 2.2e-06       # gyroscope bias random work noise standard deviation.     #4.0e-5
+acc_n: 0.0016 #0.008731551468372345 #1  #1.96e-02 #1.4e-03          # accelerometer measurement noise standard deviation. #0.2
+gyr_n: 0.007 #5.627410664269612e-10 #20  #1.82e-03 #8.6e-05        # gyroscope measurement noise standard deviation.     #0.05
+acc_w: 0.0002509 #5.29e-04 #8.0e-05        # accelerometer bias random work noise standard deviation.  #0.02
+gyr_w: 0.0019474 #3.71e-05 #2.2e-06       # gyroscope bias random work noise standard deviation.     #4.0e-5
 
-g_norm: 9.805       # gravity magnitude
+g_norm: 9.805 #9.805       # gravity magnitude
 
 #unsynchronization parameters
-estimate_td: 1    ##########                  # online estimate time offset between camera and imu
+estimate_td: 0    ##########                  # online estimate time offset between camera and imu
 td: 0.0                           # initial value of time offset. unit: s. readed image clock + td = real image clock (IMU clock)
 
 #rolling shutter parameters
-rolling_shutter: 1                      # 0: global shutter camera, 1: rolling shutter camera
+rolling_shutter: 0                      # 0: global shutter camera, 1: rolling shutter camera
 rolling_shutter_tr: 0.05               # unit: s. rolling shutter read out time per frame (from data sheet).
 
 #loop closure parameters
-loop_closure: 0                    # start loop closure
-fast_relocalization: 0            # useful in real-time and large project
+loop_closure: 1                    # start loop closure
+fast_relocalization: 1            # useful in real-time and large project
 load_previous_pose_graph: 0        # load and reuse previous pose graph; load from 'pose_graph_save_path'
 pose_graph_save_path: "/home/ericlai/output/pose_graph" # save and load path
 
