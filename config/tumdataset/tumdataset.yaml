@@ -8,17 +8,17 @@ num_threads: 0  # 0  Use the max number of threads of your device.
 #common parameters
 imu: 1
 static_init: 1
-imu_topic: "/zed/zed_node/imu/data"
-image_topic: "/zed/zed_node/rgb/image_rect_color"
-depth_topic: "/zed/zed_node/depth/depth_registered"
+imu_topic: "/imu"
+image_topic: "/camera/rgb/image_color"
+depth_topic: "/camera/depth/image"
 output_path: "/home/ericlai/output/"
 
 #RGBD camera Ideal Range
-depth_min_dist: 0.5
-depth_max_dist: 5
+depth_min_dist: 0.3
+depth_max_dist: 6
 fix_depth: 1    # 1: feature in ideal range will be set as constant 
 
-frontend_freq: 30 # It should be raised in VO mode(without IMU).
+frontend_freq: 15 # It should be raised in VO mode(without IMU).
 num_grid_rows: 5
 num_grid_cols: 6
 
@@ -26,18 +26,18 @@ num_grid_cols: 6
 model_type: PINHOLE
 camera_name: camera
 image_width: 640
-image_height: 360
+image_height: 480
 
 distortion_parameters:
-   k1: 0.0
-   k2: 0.0
-   p1: 0.0
-   p2: 0.0
+   k1: 0
+   k2: 0
+   p1: 0
+   p2: 0
 projection_parameters:
-   fx: 277.9840393066406
-   fy: 277.9840393066406
-   cx: 326.0340576171875
-   cy: 193.9207305908203
+   fx: 525.0
+   fy: 525.0
+   cx: 319.5
+   cy: 239.5
 
 # Extrinsic parameter between IMU and Camera.
 estimate_extrinsic: 0   # 0  Have an accurate extrinsic parameters. We will trust the following imu^R_cam, imu^T_cam, don't change it.
@@ -48,21 +48,16 @@ estimate_extrinsic: 0   # 0  Have an accurate extrinsic parameters. We will trus
 extrinsicRotation: !!opencv-matrix
    rows: 3
    cols: 3
-   dt: d
-   # data: [0.999925, -0.012033, -0.002464,
-   #       0.012026, 0.999924, -0.002829,
-   #       0.002498, 0.002800, 0.999993] # Maybe Correct
-
-   data: [0.999925, 0.012026, 0.002498, 
-         -0.012033, 0.999924, 0.002800, 
-         -0.002464, -0.002829, 0.999993] # ZED2 SDK Camera-IMU Transform
-
+   dt: d 
+   data: [ 1.0,  0.0,  0.0,
+           0.0,  1.0,  0.0,
+           0.0,  0.0,  1.0]
+#Translation from camera frame to imu frame, imu^T_cam
 extrinsicTranslation: !!opencv-matrix
    rows: 3
    cols: 1
    dt: d
-   # data: [0.002464, 0.002829, -0.000220] # Maybe Correct
-   data: [-0.002000, -0.023000, 0.000220] # ZED2 SDK Camera-IMU Transform
+   data: [0.0, 0.0, 0.0]
 
 
 #feature traker paprameters
@@ -80,31 +75,12 @@ max_num_iterations: 8   # max solver itrations, to guarantee real time
 keyframe_parallax: 10.0 # keyframe selection threshold (pixel); if system fails frequently, please try to reduce the "keyframe_parallax"  
 
 #imu parameters       The more accurate parameters you provide, the better performance
-# 400Hz
-acc_n: 0.37672029711 # for high freq vehicle, raise it without hesitation
-gyr_n: 0.02944919188
-acc_w: 0.00593679184
-gyr_w: 0.00010811306
+acc_n: 1.0          # accelerometer measurement noise standard deviation. # for high freq vehicle, raise it without hesitation
+gyr_n: 0.01         # gyroscope measurement noise standard deviation.   
+acc_w: 0.001         # accelerometer bias random work noise standard deviation. 
+gyr_w: 0.0001       # gyroscope bias random work noise standard deviation.  
 
-# 400Hz SDK Provided
-# acc_n: 0.008046983276
-# gyr_n: 5.6087232e-10
-# acc_w: 0.00593679184
-# gyr_w: 0.00010811306
-
-# 200Hz
-# acc_n: 0.26638147669
-# gyr_n: 0.02082372328
-# acc_w: 0.00419794576
-# gyr_w: 0.00007644748
-
-# 100Hz
-# acc_n: 0.18836014855
-# gyr_n: 0.01472459594
-# acc_w: 0.00296839592
-# gyr_w: 0.00005405653
-
-g_norm: 9.805 #9.805       # gravity magnitude
+g_norm: 9.805       # gravity magnitude
 
 #unsynchronization parameters
 estimate_td: 1    ##########                  # online estimate time offset between camera and imu
@@ -112,13 +88,13 @@ td: 0.0                           # initial value of time offset. unit: s. reade
 
 #rolling shutter parameters
 rolling_shutter: 1                      # 0: global shutter camera, 1: rolling shutter camera
-rolling_shutter_tr: 0.05               # unit: s. rolling shutter read out time per frame (from data sheet).
+rolling_shutter_tr: 0.033               # unit: s. rolling shutter read out time per frame (from data sheet).
 
 #loop closure parameters
-loop_closure: 1                    # start loop closure
-fast_relocalization: 1            # useful in real-time and large project
+loop_closure: 0                    # start loop closure
+fast_relocalization: 0            # useful in real-time and large project
 load_previous_pose_graph: 0        # load and reuse previous pose graph; load from 'pose_graph_save_path'
-pose_graph_save_path: "/home/ericlai/output/pose_graph" # save and load path
+pose_graph_save_path: "/home/chrisliu/FASTLAB_ws/src/realflight_modules/VINS-RGBD-FAST/output/pose_graph" # save and load path
 
 #visualization parameters
 save_image: 0                   # enable this might cause crash; save image in pose graph for visualization prupose; you can close this function by setting 0
