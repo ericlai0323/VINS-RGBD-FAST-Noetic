@@ -28,23 +28,29 @@ camera_name: camera
 image_width: 640
 image_height: 480
 
-distortion_parameters:
-   k1: 0.03233959506421442
-   k2: -0.12483600171515911
-   p1: -0.0008630695905382894
-   p2: 0.0017460183154471157
-
 # distortion_parameters:
-#    k1: 0
-#    k2: 0
-#    p1: 0
-#    p2: 0
+#    k1: 0.03233959506421442
+#    k2: -0.12483600171515911
+#    p1: -0.0008630695905382894
+#    p2: 0.0017460183154471157
+
+# projection_parameters:
+#    fx: 523.9029710189141
+#    fy: 525.1280072288679
+#    cx: 318.07353454990124
+#    cy: 234.2647175281021
+
+distortion_parameters:
+   k1: 0
+   k2: 0
+   p1: 0
+   p2: 0
 
 projection_parameters:
-   fx: 523.9029710189141
-   fy: 525.1280072288679
-   cx: 318.07353454990124
-   cy: 234.2647175281021
+   fx: 570.3422241210938
+   fy: 570.3422241210938
+   cx: 319.5
+   cy: 239.5
 
 # Extrinsic parameter between IMU and Camera.
 estimate_extrinsic: 0   # 0  Have an accurate extrinsic parameters. We will trust the following imu^R_cam, imu^T_cam, don't change it.
