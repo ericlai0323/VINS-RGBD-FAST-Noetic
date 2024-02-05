@@ -15,8 +15,8 @@ output_path: "/home/ericlai/output/"
 
 #RGBD camera Ideal Range
 depth_min_dist: 0.5
-depth_max_dist: 5
-fix_depth: 1    # 1: feature in ideal range will be set as constant 
+depth_max_dist: 10
+fix_depth: 0    # 1: feature in ideal range will be set as constant 
 
 frontend_freq: 30 # It should be raised in VO mode(without IMU).
 num_grid_rows: 5
@@ -53,22 +53,26 @@ extrinsicRotation: !!opencv-matrix
    #       0.012026, 0.999924, -0.002829,
    #       0.002498, 0.002800, 0.999993] # Maybe Correct
 
-   data: [0.999925, 0.012026, 0.002498, 
-         -0.012033, 0.999924, 0.002800, 
-         -0.002464, -0.002829, 0.999993] # ZED2 SDK Camera-IMU Transform
+   # data: [0.9999,-0.0120,-0.0025,
+   #       0.0120,0.9999,-0.0028,
+   #       0.0025,0.0028,1.0000] # ZED2 SDK Camera-IMU Transform
+
+   data: [0,0,1,
+         -1,0,0,
+         0,-1,0] # Correct Rotation Transform!!!
 
 extrinsicTranslation: !!opencv-matrix
    rows: 3
    cols: 1
    dt: d
    # data: [0.002464, 0.002829, -0.000220] # Maybe Correct
-   data: [-0.002000, -0.023000, 0.000220] # ZED2 SDK Camera-IMU Transform
+   data: [0.0017, 0.0230, -0.0002] # ZED2 SDK Camera-IMU Transform
 
 
 #feature traker paprameters
-max_cnt: 30           # max feature number in feature tracking. It is suggested to be raised in VO mode.
+max_cnt: 100           # max feature number in feature tracking. It is suggested to be raised in VO mode.
 min_dist: 30           # min distance between two features
-freq: 10                # frequence (Hz) of publish tracking result. At least 10Hz for good estimation. If set 0, the frequence will be same as raw image
+freq: 30                # frequence (Hz) of publish tracking result. At least 10Hz for good estimation. If set 0, the frequence will be same as raw image
 F_threshold: 1.0        # ransac threshold (pixel)
 show_track: 1           # publish tracking image as topic
 equalize: 0             # if image is too dark or light, trun on equalize to find enough features
@@ -112,7 +116,7 @@ td: 0.0                           # initial value of time offset. unit: s. reade
 
 #rolling shutter parameters
 rolling_shutter: 1                      # 0: global shutter camera, 1: rolling shutter camera
-rolling_shutter_tr: 0.05               # unit: s. rolling shutter read out time per frame (from data sheet).
+rolling_shutter_tr: 0.04               # unit: s. rolling shutter read out time per frame (from data sheet).
 
 #loop closure parameters
 loop_closure: 1                    # start loop closure

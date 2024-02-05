@@ -6,8 +6,8 @@ num_threads: 0  # 0  Use the max number of threads of your device.
                 # For now, this parameter is relevant to grid-detector to run in parallel. 
 
 #common parameters
-imu: 0
-static_init: 1
+imu: 1
+static_init: 0
 imu_topic: "/imu/data"
 image_topic: "/rgb/image"
 depth_topic: "/depth/image_raw"
@@ -16,7 +16,7 @@ output_path: "/home/ericlai/output/"
 #RGBD camera Ideal Range
 depth_min_dist: 0.3
 depth_max_dist: 6
-fix_depth: 1    # 1: feature in ideal range will be set as constant 
+fix_depth: 0    # 1: feature in ideal range will be set as constant 
 
 frontend_freq: 30 # It should be raised in VO mode(without IMU).
 num_grid_rows: 5
@@ -63,20 +63,22 @@ extrinsicRotation: !!opencv-matrix
    rows: 3
    cols: 3
    dt: d 
-   data: [ 0.0,  0.0,  -1.0,
-           -1.0,  0.0,  0.0,
-           0.0,  1.0,  0.0]
+   data: [-0.0103,   0.0082,     -0.9999,
+         -0.9999,    -0.0083,    0.0103,
+         -0.0082,    0.9999,     0.0083]
+
+
 #Translation from camera frame to imu frame, imu^T_cam
 extrinsicTranslation: !!opencv-matrix
    rows: 3
    cols: 1
    dt: d
-   data: [0.0, 0.0, 0.0]
+   data: [-0.0327,   -0.0322,    0.0264]
 
 
 #feature traker paprameters
-max_cnt: 30           # max feature number in feature tracking. It is suggested to be raised in VO mode.
-min_dist: 30           # min distance between two features
+max_cnt: 50           # max feature number in feature tracking. It is suggested to be raised in VO mode.
+min_dist: 20           # min distance between two features
 freq: 0                # frequence (Hz) of publish tracking result. At least 10Hz for good estimation. If set 0, the frequence will be same as raw image
 F_threshold: 1.0        # ransac threshold (pixel)
 show_track: 1           # publish tracking image as topic
@@ -89,7 +91,7 @@ max_num_iterations: 8   # max solver itrations, to guarantee real time
 keyframe_parallax: 10.0 # keyframe selection threshold (pixel); if system fails frequently, please try to reduce the "keyframe_parallax"  
 
 #imu parameters       The more accurate parameters you provide, the better performance
-acc_n: 1.0          # accelerometer measurement noise standard deviation. # for high freq vehicle, raise it without hesitation
+acc_n: 0.1          # accelerometer measurement noise standard deviation. # for high freq vehicle, raise it without hesitation
 gyr_n: 0.01         # gyroscope measurement noise standard deviation.   
 acc_w: 0.001         # accelerometer bias random work noise standard deviation. 
 gyr_w: 0.0001       # gyroscope bias random work noise standard deviation.  
