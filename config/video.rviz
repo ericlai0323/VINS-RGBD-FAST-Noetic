@@ -30,7 +30,7 @@ Panels:
   - Class: rviz/Time
     Name: Time
     SyncMode: 0
-    SyncSource: tracked image
+    SyncSource: Depth
   - Class: rviz/Displays
     Help Height: 79
     Name: Displays
@@ -662,8 +662,8 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: -1.464196801185608
-        Y: -1.9118120670318604
+        X: 0.30208468437194824
+        Y: -3.75848388671875
         Z: -2.1457672119140625e-06
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
@@ -672,7 +672,7 @@ Visualization Manager:
       Near Clip Distance: 0.009999999776482582
       Pitch: 1.5697963237762451
       Target Frame: <Fixed Frame>
-      Yaw: 3.0972399711608887
+      Yaw: 3.137239933013916
     Saved: ~
 Window Geometry:
   Depth:

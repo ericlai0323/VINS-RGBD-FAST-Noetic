@@ -108,7 +108,7 @@ gyr_w: 0.00010811306
 # acc_w: 0.00296839592
 # gyr_w: 0.00005405653
 
-g_norm: 9.805 #9.805       # gravity magnitude
+g_norm: 9.75 #9.805       # gravity magnitude
 
 #unsynchronization parameters
 estimate_td: 1    ##########                  # online estimate time offset between camera and imu
