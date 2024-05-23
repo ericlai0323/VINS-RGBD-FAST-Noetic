@@ -42,6 +42,11 @@ However, the proposed approach can also be applied to other application like han
 
 1.3. **Ceres Solver**
 Follow [Ceres Installation](http://ceres-solver.org/installation.html)
+```
+git clone https://github.com/ceres-solver/ceres-solver.git
+git checkout facb199 #1.14.0
+```
+
 
 1.4. **Sophus**
 ```
